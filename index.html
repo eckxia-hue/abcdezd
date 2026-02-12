@@ -69,7 +69,40 @@
         animation: jiggle 0.6s ease-in-out infinite;
       }
 
-      /* Hoạt ảnh xuất hiện tin nhắn */
+      /* Hiệu ứng pulse cho avatar AI */
+      @keyframes pulseAvatar {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.08); }
+      }
+      .pulse-avatar {
+        animation: pulseAvatar 3s ease-in-out infinite;
+      }
+
+      /* Bong bóng tin nhắn nảy nhẹ khi xuất hiện */
+      @keyframes bubbleIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        60% { transform: scale(1.05); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .bubble-in {
+        animation: bubbleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        transform-origin: bottom left;
+      }
+      .bubble-in-right {
+        animation: bubbleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        transform-origin: bottom right;
+      }
+
+      /* Hiệu ứng sóng cho dấu chấm đang gõ */
+      @keyframes dotWave {
+        0%, 60%, 100% { transform: translateY(0); }
+        30% { transform: translateY(-10px); }
+      }
+      .dot-wave-item {
+        animation: dotWave 1s ease-in-out infinite;
+      }
+
+      /* Hoạt ảnh xuất hiện tin nhắn chung */
       @keyframes popIn {
         0% { transform: scale(0.9) translateY(20px); opacity: 0; }
         100% { transform: scale(1) translateY(0); opacity: 1; }

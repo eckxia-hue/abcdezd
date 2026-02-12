@@ -45,17 +45,21 @@ const AICoach: React.FC<AICoachProps> = ({ theme }) => {
     setInputValue('');
     setIsTyping(true);
 
+    // Giả lập một chút thời gian "đang suy nghĩ" để cảm giác thật hơn
     const response = await getAIResponse(text);
     
-    const assistantMsg: Message = {
-      id: (Date.now() + 1).toString(),
-      role: 'assistant',
-      content: response,
-      timestamp: Date.now(),
-    };
+    // Thêm một chút delay nhỏ sau khi nhận kết quả để animation typing mượt mà
+    setTimeout(() => {
+      const assistantMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: response,
+        timestamp: Date.now(),
+      };
 
-    setMessages(prev => [...prev, assistantMsg]);
-    setIsTyping(false);
+      setMessages(prev => [...prev, assistantMsg]);
+      setIsTyping(false);
+    }, 600);
   };
 
   return (
@@ -99,10 +103,10 @@ const AICoach: React.FC<AICoachProps> = ({ theme }) => {
           {messages.map((msg) => (
             <div 
               key={msg.id}
-              className={`flex items-end space-x-2 md:space-x-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'} message-pop`}
+              className={`flex items-end space-x-2 md:space-x-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.role === 'assistant' && (
-                <div className="w-10 h-10 md:w-16 md:h-16 rounded-full flex-shrink-0 bg-white shadow-md flex items-center justify-center border-2 border-pink-100 overflow-hidden">
+                <div className="w-10 h-10 md:w-16 md:h-16 rounded-full flex-shrink-0 bg-white shadow-md flex items-center justify-center border-2 border-pink-100 overflow-hidden pulse-avatar">
                   <img 
                     src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Dedicated&backgroundColor=ffd5dc" 
                     alt="Dedicated Friend Avatar" 
@@ -114,8 +118,8 @@ const AICoach: React.FC<AICoachProps> = ({ theme }) => {
               <div 
                 className={`max-w-[85%] md:max-w-[75%] p-5 md:p-7 rounded-[2rem] md:rounded-[3rem] shadow-md text-xl md:text-3xl leading-relaxed whitespace-pre-wrap ${
                   msg.role === 'user' 
-                    ? 'rounded-br-none font-semibold text-white' 
-                    : 'rounded-bl-none border border-black/5 bg-white'
+                    ? 'rounded-br-none font-semibold text-white bubble-in-right' 
+                    : 'rounded-bl-none border border-black/5 bg-white bubble-in'
                 }`}
                 style={{ 
                   backgroundColor: msg.role === 'user' ? theme.accent : theme.aiBubble,
@@ -132,17 +136,18 @@ const AICoach: React.FC<AICoachProps> = ({ theme }) => {
               )}
             </div>
           ))}
+          
           {isTyping && (
-            <div className="flex items-end space-x-3 justify-start message-pop">
-              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full flex-shrink-0 bg-white shadow-md flex items-center justify-center border-2 border-pink-100 overflow-hidden">
+            <div className="flex items-end space-x-3 justify-start bubble-in">
+              <div className="w-10 h-10 md:w-16 md:h-16 rounded-full flex-shrink-0 bg-white shadow-md flex items-center justify-center border-2 border-pink-100 overflow-hidden pulse-avatar">
                 <img src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Dedicated&backgroundColor=ffd5dc" alt="AI Avatar" className="w-full h-full" />
               </div>
               <div 
-                className="p-5 md:p-7 rounded-[2rem] md:rounded-[3rem] rounded-bl-none border border-black/5 flex space-x-2 bg-white"
+                className="p-6 md:p-8 rounded-[2rem] md:rounded-[3rem] rounded-bl-none border border-black/5 flex items-center space-x-2 bg-white shadow-sm"
               >
-                <div className="w-3 h-3 md:w-5 md:h-5 rounded-full bg-pink-300 animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                <div className="w-3 h-3 md:w-5 md:h-5 rounded-full bg-pink-400 animate-bounce" style={{ animationDelay: '200ms' }}></div>
-                <div className="w-3 h-3 md:w-5 md:h-5 rounded-full bg-pink-300 animate-bounce" style={{ animationDelay: '400ms' }}></div>
+                <div className="w-2.5 h-2.5 md:w-4 md:h-4 rounded-full bg-pink-300 dot-wave-item" style={{ animationDelay: '0s' }}></div>
+                <div className="w-2.5 h-2.5 md:w-4 md:h-4 rounded-full bg-pink-400 dot-wave-item" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2.5 h-2.5 md:w-4 md:h-4 rounded-full bg-pink-300 dot-wave-item" style={{ animationDelay: '0.4s' }}></div>
               </div>
             </div>
           )}
